@@ -1,1 +1,21 @@
 theme: minima
+
+title: Profile page for Johan
+author: Johan Ochoa
+email: oni.azmodius@gmail.com
+description: > # this means to ignore newlines until "show_excerpts:"
+  We're gonna put some cool stuff in here!
+
+show_excerpts: false # set to true to show excerpts on the homepage
+
+minima:
+  twitter_username: azmodius
+  github_username:  azmodius
+  instagram_username: azmodius
+
+# If you want to link only specific pages in your header, uncomment
+# this and add the path to the pages in order as they should show up
+header_pages:
+ - about.md
+ - resume.md
+ - games.md
