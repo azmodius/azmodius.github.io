@@ -1,0 +1,20 @@
+{%- comment -%}
+  The "currently" strip. One list in profile.yml, cheap to keep fresh -- it is what
+  makes the site read as alive rather than abandoned.
+  Renders nothing at all if the list is empty, rather than an empty heading.
+{%- endcomment -%}
+{%- assign items = site.data.profile.currently -%}
+
+{%- if items and items.size > 0 -%}
+  <section class="pf-section pf-currently">
+    <h2 class="pf-label">Currently</h2>
+    <ul class="pf-currently__list">
+      {%- for item in items -%}
+        <li class="pf-currently__item">
+          <span class="pf-currently__label">{{ item.label }}</span>
+          <span class="pf-currently__value">{{ item.value }}</span>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </section>
+{%- endif -%}

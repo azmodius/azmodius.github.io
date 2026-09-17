@@ -1,0 +1,10 @@
+---
+layout: default
+---
+{%- comment -%}
+  The home page is also the About page. Longer-form prose lives in index.md's
+  Markdown body; the hero renders it after the intro.
+{%- endcomment -%}
+{%- include pf/hero.html about=content -%}
+{%- include pf/currently.html -%}
+{%- include pf/card-grid.html -%}

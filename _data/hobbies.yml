@@ -1,0 +1,37 @@
+# Hobby cards for /hobbies.html. Keys: name, blurb, and optional icon and link.
+
+- name: Homelab & Home Automation
+  icon: "🖥"
+  blurb: >
+    Running my own hardware at home, and slowly wiring the house up so it handles
+    more of the boring parts by itself.
+
+- name: 3D Printing
+  icon: "🖨️"
+  blurb: >
+    The newest of these. Still in the stage where most of the fun is finding out
+    what the machine can actually do.
+
+- name: Music & Festivals
+  icon: "♬"
+  blurb: >
+    Live music is the thing I'll always make time for, festivals especially.
+
+- name: Coffee
+  icon: "☕"
+  blurb: >
+    Making an espresso in the morning has become a routine and very zen. 
+
+- name: Pickleball
+  icon: "🥒 🏓 "
+  blurb: >
+    In an effort to trick myself into exercise, I fell in love with pickleball. 
+    Always down to duo!
+
+- name: Gaming
+  icon: "🎮"
+  blurb: >
+    A lifelong habit that turned into the job. The play log has what I'm actually
+    putting hours into.
+    Also down to join a local for some TCGs, FGCs or DDR
+  link: /games.html

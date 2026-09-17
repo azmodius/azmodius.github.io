@@ -1,5 +1,8 @@
-Gemfile.lock
 _site
 .jekyll-cache
 .jekyll-metadata
 vendor
+
+# IGDB keys for .vscode/launch.json
+.env
+.claude

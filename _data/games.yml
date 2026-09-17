@@ -1,0 +1,279 @@
+# Games I PLAY, not games I've built. One flat list.
+#
+# ---------------------------------------------------------------------------
+# ADDING A GAME
+# ---------------------------------------------------------------------------
+# Only `title` is required. Add `year` or `igdb_id` (ideally both) so the game
+# lands in a year section.
+#
+#   - title: Game Name
+#     year: 2026                 # Year YOU played it. Omit if you don't remember:
+#                                #   the IGDB release year is used instead.
+#     status: playing            # playing | finished | dropped | replayed
+#                                #   omit, or use `finished`, for no badge
+#     cover: /assets/img/games/game-name.jpg    # optional override, see below
+#     rating: 4                  # 1-5
+#     platform: PC               # or a list, played on both at once: [PC, Switch]
+#     all_time: true             # ALSO shows in the All-Time section at the bottom
+#     note: "one line"
+#     url: "https://..."         # makes the whole card a link
+#     igdb_id: 1234              # which IGDB game this is: release year + cover
+#                                #   (the number, not the URL slug). The script
+#                                #   prints candidates for entries without one.
+#
+# ---------------------------------------------------------------------------
+# BOX ART
+# ---------------------------------------------------------------------------
+# Normally: set `igdb_id` and run script/fetch-covers.rb. It saves the cover as
+# assets/img/games/<igdb-slug>.jpg and the release year to _data/igdb.yml
+# (generated, commit it). The page finds both on its own, no `cover` key.
+#
+# Override, for games not on IGDB or art you picked yourself:
+# 1. Drop the file in  assets/img/games/
+# 2. Point `cover` at it with a leading slash: /assets/img/games/riftbound.png
+# A game with `cover` is never looked up or overwritten, even with --force.
+#
+# Cards are 3:4 (box art proportions) and images are object-fit: cover, so any
+# aspect ratio works but 3:4 crops best. ~600x800 is plenty even for retina.
+#
+# DO NOT start a filename with an underscore. Jekyll treats every _-prefixed file
+# and folder as private and silently leaves it out of the build: the <img> tag
+# renders fine and the image 404s, with nothing in the build log to explain it.
+# Covers are OPTIONAL: an entry without one renders the title's initial set
+# large in mono, at the same size, so the grid never has holes.
+#
+# ---------------------------------------------------------------------------
+# ALL-TIME
+# ---------------------------------------------------------------------------
+# Add `all_time: true` to any entry. The section appears at the bottom of the
+# page automatically once at least one game is flagged, and hides itself when
+# none are. An all-time pick still sits in a year section: use the year you
+# FIRST played it (or omit it for the release year), which makes the year log
+# double as a history.
+#
+# A game appearing in Now Playing, its year section, AND All-Time is intended.
+# The year log is the complete record; the other two are curated rails.
+#
+# ---------------------------------------------------------------------------
+# PLAYED IT MORE THAN ONCE
+# ---------------------------------------------------------------------------
+# Same time, several platforms: one entry, `platform` as a list.
+#
+#   - title: Hades
+#     platform: [PC, Switch]
+#     year: 2020
+#
+# Different times: a `plays:` list. Each play gets its own card and can set its
+# own year, platform, igdb_id (the cover follows it), status and all_time. Keys
+# on the parent (note, url, rating...) apply to every play unless a play
+# overrides them.
+#
+#   - title: Chrono Trigger
+#     plays:
+#       - platform: SNES
+#         igdb_id: 1802
+#       - platform: DS
+#         year: 2022
+#         igdb_id: 20398
+#         all_time: true
+#
+# Two plays with the same title, platform AND year fail the build.
+
+- title: Riftbound
+  year: 2026
+  status: playing
+  cover: /assets/img/games/riftbound.png   # not on IGDB (physical TCG), so never looked up
+
+- title: Rhythm Heaven Groove
+  year: 2026
+  status: playing
+  igdb_id: 337031     # https://www.igdb.com/games/rhythm-heaven-groove
+
+- title: Bits and Bops
+  year: 2026
+  platform: PC
+  status: playing
+  igdb_id: 202135     # IGDB: "Bits & Bops"
+
+- title: Phantasy Star Online Episode I & II
+  platform: GameCube
+  all_time: true
+  igdb_id: 9890       # https://www.igdb.com/games/phantasy-star-online-episode-i-and-ii (not the "Plus" re-release, 79149)
+
+- title: Destiny 2
+  year: 2017
+  platform: PC
+  all_time: true
+  igdb_id: 25657      # https://www.igdb.com/games/destiny-2
+
+- title: Soul Calibur 6
+  year: 2018
+  platform: PC
+  all_time: true
+  igdb_id: 76885      # SoulCalibur VI
+
+- title: Chrono Trigger
+  all_time: true
+  plays:
+    - platform: SNES
+      igdb_id: 1802   # 1995 original
+    - platform: DS
+      igdb_id: 20398  # 2008 DS port
+
+- title: Final Fantasy VI
+  platform: SNES
+  all_time: true
+  igdb_id: 426        # IGDB lists the SNES release under its US name, "Final Fantasy III"
+
+- title: Metal Gear Solid V The Phantom Pain
+  platform: PC
+  all_time: true
+  igdb_id: 1985
+
+- title: Metal Gear Solid V Ground Zeroes
+  platform: PC
+  all_time: true
+  igdb_id: 5328
+
+- title: "Like a Dragon: Infinite Wealth"
+  platform: PC
+  igdb_id: 217623
+
+- title: "Yakuza: Like a Dragon"
+  platform: PC
+  igdb_id: 36550
+
+- title: "NieR:Automata"
+  platform: PC
+  all_time: true
+  igdb_id: 11208      # title search misses this one entirely
+
+- title: "Clair Obscur: Expedition 33"
+  platform: PC
+  all_time: true
+  igdb_id: 305152
+
+- title: Resident Evil 4
+  plays:
+    - platform: GameCube
+      igdb_id: 974    # 2005 original
+    - platform: PC
+      year: 2023
+      all_time: true
+      igdb_id: 132181 # 2023 remake
+
+- title: 1000xResist
+  platform: PC
+  igdb_id: 218282     # listed as "1000xResist"
+
+- title: Unbeatable
+  platform: PC
+  igdb_id: 144859
+
+- title: Persona 4 Golden
+  platform: PSVita
+  all_time: true
+  igdb_id: 2985       # 2012 Vita original (no PSP release). PC/console port is 234702
+
+- title: Stray
+  platform: PC
+  igdb_id: 110248     # the 2022 cat game, not the 2017 "Stray" (177394)
+
+- title: to a T
+  platform: PC
+  igdb_id: 255090
+
+- title: To the Moon
+  platform: PC
+  all_time: true
+  igdb_id: 5025       # 2011 original
+
+- title: The Red Strings Club
+  platform: PC
+  year: 2018
+  igdb_id: 75247      # IGDB: "The Red Strings Club"
+
+- title: Doki Doki Literature Club
+  platform: PC
+  year: 2017
+  igdb_id: 55935      # original. "Plus!" is 152122
+
+- title: Bayonetta
+  platform: PC
+  year: 2018
+  igdb_id: 2136
+
+- title: Bayonetta 2
+  platform: Switch
+  year: 2018
+  igdb_id: 279336     # 2018 Switch port. Wii U original is 2135
+
+- title: Stranger of Paradise Final Fantasy Origin
+  platform: PC
+  year: 2023
+  igdb_id: 152250
+
+- title: Cyberpunk 2077
+  platform: PC
+  year: 2022
+  igdb_id: 1877
+
+- title: Final Fantasy 14 - A Realm Reborn
+  platform: PC
+  year: 2018
+  igdb_id: 386        # "Final Fantasy XIV Online", the base game
+
+- title: Final Fantasy 14 - Heavensward
+  platform: PC
+  year: 2019
+  igdb_id: 14723
+
+- title: Final Fantasy 14 - Stormblood
+  platform: PC
+  year: 2020
+  igdb_id: 26625
+
+- title: Final Fantasy 14 - Shadowbringers
+  platform: PC
+  year: 2020
+  igdb_id: 112412
+
+- title: Final Fantasy 14 - Endwalker
+  platform: PC
+  year: 2021
+  all_time: true
+  igdb_id: 143232
+
+- title: Final Fantasy 7 Remake
+  platform: PS4
+  igdb_id: 11169      # Intergrade (PS5/PC) is 144024
+
+- title: Final Fantasy 7 Rebirth
+  platform: PS5
+  igdb_id: 133236
+
+- title: Final Fantasy XVI
+  platform: PS5
+  igdb_id: 31551
+
+- title: Final Fantasy XV
+  platform: PS4
+  igdb_id: 359
+
+- title: Kingdom Hearts III
+  platform: PS4
+  igdb_id: 2933
+
+- title: Persona 5
+  platform: PS4
+  all_time: true
+  igdb_id: 9927       # original. Royal is 114283
+
+- title: The Last of Us
+  platform: PS3
+  igdb_id: 1009       # PS3 original. Remastered (PS4) is 6036
+
+- title: The Last of Us Part II
+  platform: PS4
+  igdb_id: 26192
+

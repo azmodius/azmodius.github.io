@@ -1,0 +1,93 @@
+{
+  // Everything here runs in the jekyll container (host Ruby is too old).
+  // The "node" type is only a process launcher: nothing is debugged.
+  //
+  // Site: serve  runs `docker compose up` and opens http://localhost:4000 once Jekyll
+  //              is actually serving. --force-recreate makes every launch a fresh boot,
+  //              which also re-reads _config.yml (Jekyll never hot-reloads that file).
+  // Site: stop   `docker compose down`, for when the serve terminal is already gone.
+  //
+  // Every config runs the "colima: ensure running" task first (.vscode/tasks.json), so
+  // launching after a reboot starts the Docker VM instead of failing.
+  // Keys live in .env (gitignored), not here. Get them at https://dev.twitch.tv/console/apps
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Site: serve (localhost:4000)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "docker",
+      "preLaunchTask": "colima: ensure running",
+      "runtimeArgs": ["compose", "up", "--force-recreate"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      // Match "Server address:", not the entrypoint's earlier "==> jekyll serve" line,
+      // which prints before the build finishes. Jekyll reports 0.0.0.0, which is not
+      // browsable, so only the port is captured.
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "Server address: http://[^:]+:([0-9]+)",
+        "uriFormat": "http://localhost:%s"
+      }
+    },
+    {
+      "name": "Site: stop",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "docker",
+      "preLaunchTask": "colima: ensure running",
+      "runtimeArgs": ["compose", "down"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Covers: fetch missing (IGDB)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "docker",
+      "preLaunchTask": "colima: ensure running",
+      "runtimeArgs": [
+        "compose", "run", "--rm", "--no-deps",
+        "-e", "IGDB_CLIENT_ID", "-e", "IGDB_CLIENT_SECRET",
+        "--entrypoint", "bash", "jekyll", "-c",
+        "bundle check >/dev/null || bundle install; exec bundle exec ruby script/fetch-covers.rb \"$@\"", "_",
+        "--source", "igdb"
+      ],
+      "envFile": "${workspaceFolder}/.env",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Covers: dry run (IGDB)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "docker",
+      "preLaunchTask": "colima: ensure running",
+      "runtimeArgs": [
+        "compose", "run", "--rm", "--no-deps",
+        "-e", "IGDB_CLIENT_ID", "-e", "IGDB_CLIENT_SECRET",
+        "--entrypoint", "bash", "jekyll", "-c",
+        "bundle check >/dev/null || bundle install; exec bundle exec ruby script/fetch-covers.rb \"$@\"", "_",
+        "--source", "igdb", "--dry-run"
+      ],
+      "envFile": "${workspaceFolder}/.env",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Covers: list games (no keys)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "docker",
+      "preLaunchTask": "colima: ensure running",
+      "runtimeArgs": [
+        "compose", "run", "--rm", "--no-deps",
+        "--entrypoint", "bash", "jekyll", "-c",
+        "bundle check >/dev/null || bundle install; exec bundle exec ruby script/fetch-covers.rb \"$@\"", "_",
+        "--list"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}

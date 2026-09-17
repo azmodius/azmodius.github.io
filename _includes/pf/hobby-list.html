@@ -1,0 +1,19 @@
+{%- comment -%}
+  Wider cards than the game grid, with room for a sentence or two.
+{%- endcomment -%}
+<ul class="pf-stack pf-hobbies">
+  {%- for h in site.data.hobbies -%}
+    <li class="pf-card pf-hobby">
+      <h2 class="pf-hobby__name">
+        {%- if h.icon -%}
+          <span class="pf-hobby__icon" aria-hidden="true">{{ h.icon }}</span>
+        {%- endif -%}
+        {{ h.name }}
+      </h2>
+      <p class="pf-card__body">{{ h.blurb }}</p>
+      {%- if h.link -%}
+        <a class="pf-meta pf-hobby__link" href="{{ h.link | relative_url }}">More &rarr;</a>
+      {%- endif -%}
+    </li>
+  {%- endfor -%}
+</ul>

@@ -1,13 +1,21 @@
-version: '3'
+# Local preview only. Production is built by .github/workflows/pages.yml.
+# Requires: colima start  (the Docker daemon lives in that VM)
 services:
   jekyll:
-      image: jekyll/jekyll
-      environment:
-        - JEKYLL_ENV=development
-      #command: bundle exec jekyll serve --watch --incremental --config _config-dev.yml --host 0.0.0.0
-      entrypoint: ./entrypoint.sh
-      ports:
-          - 4000:4000
-      volumes:
-          - .:/srv/jekyll:cached
-          - ./vendor/bundle:/usr/local/bundle:cached
+    image: ruby:3.3
+    working_dir: /srv/jekyll
+    entrypoint: ["bash", "./entrypoint.sh"]
+    environment:
+      JEKYLL_ENV: development
+      BUNDLE_PATH: /usr/local/bundle
+    ports:
+      - "4000:4000"    # site
+      - "35729:35729"  # livereload
+    volumes:
+      - .:/srv/jekyll:cached
+      # Named volume, not ./vendor/bundle: keeps compiled native gems off the
+      # macOS filesystem (wrong arch, slow) and out of the repo.
+      - bundle:/usr/local/bundle
+
+volumes:
+  bundle:

@@ -1,0 +1,27 @@
+{%- comment -%}
+  Hero. Every string comes from _data/profile.yml.
+  No action buttons: they would repeat the nav, the home cards and the footer socials.
+{%- endcomment -%}
+{%- assign p = site.data.profile -%}
+
+<section class="pf-hero">
+  <h1 class="pf-hero__name">{{ p.name }}</h1>
+
+  {%- if p.tagline -%}
+    <p class="pf-hero__tagline">{{ p.tagline }}</p>
+  {%- endif -%}
+
+  {%- if p.intro -%}
+    <p class="pf-hero__intro">{{ p.intro }}</p>
+  {%- endif -%}
+
+  {%- comment -%}
+    Longer About prose, passed in by the home layout from index.md's Markdown body.
+    Follows the intro so the two read as one block.
+  {%- endcomment -%}
+  {%- if include.about and include.about != "" -%}
+    <div class="pf-hero__about">
+      {{ include.about }}
+    </div>
+  {%- endif -%}
+</section>

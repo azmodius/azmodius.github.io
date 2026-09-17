@@ -1,20 +1,63 @@
-theme: minima
+# No gem theme. Layouts, includes and styles are all local: see _layouts/,
+# _includes/pf/ and _sass/pf/.
 
-title: Profile page for Johan
+# GitHub Pages used to inject this automatically from CNAME; plain Jekyll 4 under
+# Actions does not. Without it jekyll-seo-tag emits no canonical/og:url.
+url: "https://azmodius.moe"
+baseurl: ""
+
+# Explicit even though the Gemfile's :jekyll_plugins group already loads it, so
+# moving the gem out of that group can't silently drop it from the build.
+plugins:
+  - jekyll-seo-tag
+
+title: Johan Ochoa
 author: Johan Ochoa
-email: oni.azmodius@gmail.com
-description: > # this means to ignore newlines until "show_excerpts:"
-  We're gonna put some cool stuff in here!
+# jekyll-seo-tag builds the homepage <title> as "title | tagline", falling back to
+# `description` when there is no tagline -- which ran to 110 characters and would be
+# truncated in search results. Short tagline for the title, full description for the
+# meta tag and social cards. Distinct from _data/profile.yml's tagline, which is the
+# line rendered in the hero.
+tagline: "Software engineer at Riot Games"
+description: >
+  Software engineer at Riot Games, working on lobbies and around-game systems for 2XKO.
 
-show_excerpts: false # set to true to show excerpts on the homepage
+# jekyll-seo-tag reads this for twitter:site.
+twitter:
+  username: azmodius
 
-twitter_username: azmodius
-github_username:  azmodius
-instagram_username: azmodius
+# The share card for every page (og:image, twitter:image). Its source is
+# script/og-card.html; see the note there for how to regenerate it.
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /assets/img/og.png
 
-# If you want to link only specific pages in your header, uncomment
-# this and add the path to the pages in order as they should show up
+# Nav order. Also drives the home page cards.
+# resume.md is left out until it has content, so the live nav doesn't lead to a stub.
 header_pages:
- - about.md
- - resume.md
  - games.md
+ - hobbies.md
+
+# Dev-only files live at the repo root; without this they are copied verbatim
+# into _site and published at azmodius.moe.
+# NOTE: this REPLACES Jekyll's default exclude list rather than extending it,
+# so the defaults have to be repeated here.
+exclude:
+  # Jekyll's defaults
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  # Ours: dev-only files that live at the repo root
+  - docker-compose.yml
+  - entrypoint.sh
+  - readme.md
+  - script/

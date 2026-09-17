@@ -1,0 +1,63 @@
+{%- comment -%}
+  Renders a list of games as cover-first cards.
+    {% include pf/game-grid.html games=some_list %}
+
+  Cover art is optional by design: an entry without one gets a
+  typographic card built from its initial, so appending to the log never blocks on
+  sourcing an image. `finished` deliberately shows no badge -- it is the common case,
+  and badging it would make every card noisy.
+{%- endcomment -%}
+
+<ul class="pf-grid pf-games">
+  {%- for g in include.games -%}
+    {%- comment -%}
+      cover_url is resolved by _plugins/games.rb: explicit `cover:`, else a file in
+      /assets/img/games/ named after the IGDB slug or the title slug, else nil for
+      the typographic fallback, so a missing cover is never a hole in the grid.
+    {%- endcomment -%}
+    {%- assign cover_path = g.cover_url -%}
+
+    <li class="pf-game">
+      {%- if g.url -%}
+        <a class="pf-game__link" href="{{ g.url }}" rel="noopener" target="_blank">
+      {%- else -%}
+        <div class="pf-game__link">
+      {%- endif -%}
+
+        <div class="pf-game__cover">
+          {%- if cover_path -%}
+            <img src="{{ cover_path | relative_url }}" alt="{{ g.title }} cover art" loading="lazy">
+          {%- else -%}
+            <span class="pf-game__initial" aria-hidden="true">{{ g.title | slice: 0 }}</span>
+          {%- endif -%}
+
+          {%- if g.status and g.status != 'finished' -%}
+            <span class="pf-game__badge pf-game__badge--{{ g.status }}">{{ g.status }}</span>
+          {%- endif -%}
+        </div>
+
+        <h3 class="pf-game__title">{{ g.title }}</h3>
+
+        {%- if g.rating -%}
+          {%- comment -%} Text stars are decorative; the real value goes to a11y. {%- endcomment -%}
+          <p class="pf-game__rating" aria-label="Rated {{ g.rating }} out of 5">
+            <span aria-hidden="true">
+              {%- for i in (1..5) -%}
+                {%- if i <= g.rating -%}&#9733;{%- else -%}&#9734;{%- endif -%}
+              {%- endfor -%}
+            </span>
+          </p>
+        {%- endif -%}
+
+        {%- if g.platform or g.note -%}
+          <p class="pf-game__meta pf-meta">
+            {{- g.platform -}}
+            {%- if g.platform and g.note %} &middot; {% endif -%}
+            {{- g.note -}}
+          </p>
+        {%- endif -%}
+
+      {%- if g.url -%}</a>{%- else -%}</div>{%- endif -%}
+    </li>
+  {%- endfor -%}
+</ul>

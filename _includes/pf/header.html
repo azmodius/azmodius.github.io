@@ -1,0 +1,33 @@
+{%- comment -%}
+  Nav reads site.header_pages, same contract the old theme used, so adding a page
+  is still a one-line _config.yml change. Falls back to every page if unset.
+{%- endcomment -%}
+{%- assign default_paths = site.pages | map: "path" -%}
+{%- assign page_paths = site.header_pages | default: default_paths -%}
+
+<header class="pf-header">
+  <div class="pf-wrap pf-header__inner">
+    {%- comment -%}
+      Home is the site title rather than a nav link, so it carries the current-page
+      `//` marker itself when you are on it.
+    {%- endcomment -%}
+    {%- assign home_url = '/' | relative_url -%}
+    {%- assign on_home = false -%}
+    {%- if page.url == '/' or page.url == '/index.html' -%}{%- assign on_home = true -%}{%- endif -%}
+    <a class="pf-header__title{% if on_home %} is-current{% endif %}" href="{{ home_url }}"
+       {% if on_home %}aria-current="page"{% endif %}>
+      {{ site.data.profile.name | default: site.title }}
+    </a>
+
+    <nav class="pf-nav" aria-label="Main">
+      {%- for path in page_paths -%}
+        {%- assign p = site.pages | where: "path", path | first -%}
+        {%- if p.title -%}
+          <a class="pf-nav__link{% if p.url == page.url %} is-current{% endif %}"
+             href="{{ p.url | relative_url }}"
+             {% if p.url == page.url %}aria-current="page"{% endif %}>{{ p.title }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+  </div>
+</header>

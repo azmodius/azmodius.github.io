@@ -1,0 +1,45 @@
+<footer class="pf-footer">
+  <div class="pf-wrap pf-footer__inner">
+    <ul class="pf-row pf-footer__socials">
+      {%- for s in site.data.profile.socials -%}
+        {%- comment -%}
+          The icon is whichever file in assets/img/socials/ has `icon` as its name, any
+          extension. It is drawn as a CSS mask filled with currentColor, so it takes the
+          link's color (and the accent on hover) in both light and dark mode. The icon
+          must have transparency: a flat JPEG masks to a solid square. No matching file
+          falls back to the plain text name.
+        {%- endcomment -%}
+        {%- assign icon_file = site.static_files | where: "basename", s.icon
+            | where_exp: "f", "f.path contains '/assets/img/socials/'" | first -%}
+        {%- comment -%} mailto: links open the mail app, not a new tab. {%- endcomment -%}
+        {%- capture link_attrs -%}
+          {%- if s.url contains 'mailto:' -%} data-pf-email{%- else -%} rel="me noopener" target="_blank"{%- endif -%}
+        {%- endcapture -%}
+        <li>
+          {%- if icon_file -%}
+            <a class="pf-social" href="{{ s.url }}" {{ link_attrs }}
+               aria-label="{{ s.name }}" title="{{ s.name }}">
+              <span class="pf-social__icon" aria-hidden="true"
+                    style="--pf-social-icon: url('{{ icon_file.path | relative_url }}')"></span>
+            </a>
+          {%- else -%}
+            <a class="pf-meta" href="{{ s.url }}" {{ link_attrs }}>{{ s.name }}</a>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+    <p class="pf-meta pf-footer__copy">
+      &copy; {{ 'now' | date: "%Y" }} {{ site.data.profile.name | default: site.author }}
+    </p>
+  </div>
+  {%- comment -%}
+    Email addresses are written as name[at]domain in _data/profile.yml so the address
+    isn't in the HTML for scrapers. This puts the @ back in the browser. Without JS the
+    link still opens the mail app, with the [at] form for the reader to fix by hand.
+  {%- endcomment -%}
+  <script>
+    document.querySelectorAll('a[data-pf-email]').forEach(function (a) {
+      a.href = a.getAttribute('href').replace('[at]', '@');
+    });
+  </script>
+</footer>

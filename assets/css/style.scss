@@ -1,0 +1,13 @@
+---
+# Front matter (the dashes alone are enough) makes Jekyll run this through Sass.
+---
+
+// Every layer is @use'd, never @import'ed: @use shares one module graph, so nothing
+// is emitted twice.
+//
+// Order is the cascade order: tokens define the palette, base consumes it
+// for elements and chrome, components for our pf- classes.
+
+@use "pf/tokens";
+@use "pf/base";
+@use "pf/components";

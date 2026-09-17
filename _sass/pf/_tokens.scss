@@ -1,0 +1,66 @@
+// THE SKIN. Every literal color, font and size in the site lives here and nowhere
+// else (theme-swap contract). _components.scss reads these
+// through var() and contains no literals of its own.
+//
+// Dark is the default; the light variant exists so the site stays readable on a
+// bright screen. Both palettes are defined in full -- never define a color only
+// inside the media query.
+
+// Breakpoints are Sass variables and live in _breakpoints.scss -- see the note
+// there for why they must not share a file with anything that emits CSS.
+
+:root {
+  // ---- surfaces ----
+  --pf-bg:          #0d1117;  // near-black, slight blue cast
+  --pf-bg-raised:   #161b22;  // cards, code blocks
+  --pf-border:      #262d36;  // hairlines
+
+  // ---- ink ----
+  --pf-text:        #c9d1d9;  // body
+  --pf-text-dim:    #8b949e;  // metadata, dates, labels
+  --pf-text-bright: #f0f6fc;  // headings
+
+  // ---- the one accent ----
+  // 7.45:1 on --pf-bg. Links, timeline dots, hover. Nowhere else.
+  --pf-accent:      #3fb950;
+  --pf-accent-dim:  #2ea043;
+
+  // ---- type ----
+  --pf-font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+                  Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --pf-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+                  "Liberation Mono", monospace;
+
+  --pf-text-sm:   0.8125rem;
+  --pf-text-base: 1rem;
+  --pf-text-lg:   1.25rem;
+  --pf-text-xl:   2rem;
+
+  // ---- space / shape ----
+  --pf-space-xs: 0.25rem;
+  --pf-space-sm: 0.5rem;
+  --pf-space-md: 1rem;
+  --pf-space-lg: 2rem;
+  --pf-space-xl: 4rem;
+
+  --pf-radius: 4px;
+  --pf-icon-size: 1.25rem;
+  --pf-hairline: 1px solid var(--pf-border);
+  --pf-max-width: 800px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --pf-bg:          #fdfdfd;
+    --pf-bg-raised:   #f4f6f8;
+    --pf-border:      #d8dee4;
+
+    --pf-text:        #24292f;
+    --pf-text-dim:    #57606a;
+    --pf-text-bright: #0d1117;
+
+    // #3fb950 fails AA on a light ground (~2.3:1); this is 4.8:1.
+    --pf-accent:      #1a7f37;
+    --pf-accent-dim:  #116329;
+  }
+}

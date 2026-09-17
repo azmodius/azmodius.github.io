@@ -1,0 +1,26 @@
+{%- comment -%}
+  Quick-links grid. Derived from site.header_pages, the same source the nav uses, so
+  the cards can never drift out of sync with the header. Each card's blurb comes from
+  that page's own front matter -- still front matter only, so rule 3 holds.
+{%- endcomment -%}
+{%- assign default_paths = site.pages | map: "path" -%}
+{%- assign page_paths = site.header_pages | default: default_paths -%}
+
+<nav class="pf-section" aria-label="Sections">
+  <ul class="pf-grid">
+    {%- for path in page_paths -%}
+      {%- assign p = site.pages | where: "path", path | first -%}
+      {%- if p.title -%}
+        <li>
+          <a class="pf-card pf-card--link" href="{{ p.url | relative_url }}">
+            <h2 class="pf-card__title">{{ p.title }}</h2>
+            {%- if p.blurb -%}
+              <p class="pf-card__body">{{ p.blurb }}</p>
+            {%- endif -%}
+            <span class="pf-card__arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+</nav>

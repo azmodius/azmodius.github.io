@@ -1,0 +1,40 @@
+# Structured content. Pages stay front-matter-only and read from here, so a theme
+# swap never touches copy.
+#
+# No em dashes in anything here: it is all rendered copy and the site avoids them.
+
+name: Johan Ochoa
+tagline: "Software engineer at Riot Games, building around-game systems on 2XKO"
+intro: >
+  I'm a software engineer at Riot Games working on 2XKO, where I build the systems
+  players move through before and between matches: lobbies, parties, and everything
+  that gets a group into a game together.
+location: "Long Beach, CA"
+# resume_pdf: /assets/johan-ochoa-resume.pdf   # uncomment when the PDF exists
+
+currently:
+  - label: Building
+    value: "A homelab and home automation to run my house"
+  - label: Playing
+    value: "Riftbound, Rhythm Heaven Groove, Metal Gear (MSX)"
+  - label: Learning
+    value: "3D printing"
+
+socials:
+  - name: GitHub
+    url: https://github.com/azmodius
+    icon: github
+  - name: LinkedIn
+    url: https://www.linkedin.com/in/johanochoa
+    icon: linkedin
+  - name: Twitter
+    url: https://twitter.com/azmodius
+    icon: twitter
+  - name: Instagram
+    url: https://instagram.com/azmodius
+    icon: instagram
+  # Written with [at] so the address isn't sitting in the HTML for scrapers.
+  # pf/footer.html swaps in the @ in the browser.
+  - name: Email
+    url: "mailto:hi[at]azmodius.moe"
+    icon: email

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- The header's "//" current-page marker. Colors mirror --pf-accent in
+       _sass/pf/_tokens.scss (a favicon can't read CSS variables). -->
+  <style>
+    path { stroke: #3fb950; }
+    @media (prefers-color-scheme: light) { path { stroke: #1a7f37; } }
+  </style>
+  <path d="M5 28 14 4M18 28l9-24" fill="none" stroke-width="4" stroke-linecap="round"/>
+</svg>

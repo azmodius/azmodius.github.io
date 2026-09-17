@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
+  {%- include pf/head.html -%}
+  <body>
+    <a class="pf-skip" href="#content">Skip to content</a>
+    {%- include pf/header.html -%}
+    <main class="pf-main" id="content">
+      <div class="pf-wrap">
+        {{ content }}
+      </div>
+    </main>
+    {%- include pf/footer.html -%}
+  </body>
+</html>

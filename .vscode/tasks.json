@@ -1,0 +1,16 @@
+{
+  // Helpers for launch.json. Every launch config runs `docker`, which needs the Colima
+  // VM up; after a reboot it is not, and docker fails with "failed to connect to the
+  // docker API at unix:///.../colima/default/docker.sock".
+  "version": "2.0.0",
+  "tasks": [
+    {
+      // No-op when Colima is already running, so it is cheap to run before every launch.
+      "label": "colima: ensure running",
+      "type": "shell",
+      "command": "colima status >/dev/null 2>&1 || colima start",
+      "presentation": { "reveal": "silent", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    }
+  ]
+}

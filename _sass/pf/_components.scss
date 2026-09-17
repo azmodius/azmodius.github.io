@@ -1,0 +1,378 @@
+// OUR components. Every class is prefixed pf-, every value is a var(--pf-*).
+// Zero literal colors, fonts or sizes; zero theme class names. This file is the
+// part of the theme-swap contract that should survive a swap untouched.
+//
+// Layouts and includes added in later build steps consume these.
+
+// --------------------------------------------------------------- primitives ----
+
+// `// SECTION` label. The mono-caps marker that carries most of the techy feel.
+.pf-label {
+  font-family: var(--pf-font-mono);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--pf-space-md);
+
+  &::before {
+    content: "// ";
+    color: var(--pf-accent);
+  }
+}
+
+// Metadata: dates, platforms, counts. Mono, dimmed, never the main read.
+.pf-meta {
+  font-family: var(--pf-font-mono);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-dim);
+}
+
+.pf-tag {
+  display: inline-block;
+  font-family: var(--pf-font-mono);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text);
+  background-color: var(--pf-bg-raised);
+  border: var(--pf-hairline);
+  border-radius: var(--pf-radius);
+  padding: var(--pf-space-xs) var(--pf-space-sm);
+}
+
+// ------------------------------------------------------------------ surfaces ----
+
+.pf-card {
+  display: block;
+  background-color: var(--pf-bg-raised);
+  border: var(--pf-hairline);
+  border-radius: var(--pf-radius);
+  padding: var(--pf-space-md);
+  color: inherit;
+
+  // Hairline + accent on hover. No shadow, no lift, no glow.
+  &:hover {
+    border-color: var(--pf-accent);
+    text-decoration: none;
+  }
+}
+
+.pf-card__title {
+  color: var(--pf-text-bright);
+  font-weight: 600;
+  margin: 0 0 var(--pf-space-xs);
+}
+
+.pf-card__body {
+  color: var(--pf-text-dim);
+  font-size: var(--pf-text-sm);
+  margin: 0;
+}
+
+// Cards used as navigation: the arrow sits at the bottom and slides on hover.
+.pf-card--link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.pf-card__arrow {
+  margin-top: auto;
+  padding-top: var(--pf-space-sm);
+  color: var(--pf-accent);
+  font-family: var(--pf-font-mono);
+  transition: transform 120ms ease;
+
+  .pf-card--link:hover & { transform: translateX(3px); }
+}
+
+// Respect a reduced-motion preference -- the arrow is decoration, not feedback.
+@media (prefers-reduced-motion: reduce) {
+  .pf-card__arrow {
+    transition: none;
+    .pf-card--link:hover & { transform: none; }
+  }
+}
+
+// ---------------------------------------------------------------------- hero ----
+
+// No top padding: .pf-main already supplies it, and adding more here pushed the
+// name below where every other page's title sits.
+.pf-hero {
+  padding-block: 0 var(--pf-space-md);
+}
+
+.pf-hero__name {
+  margin-bottom: var(--pf-space-sm);
+}
+
+// The accent marker is decoration, so it lives in CSS rather than the copy --
+// keeps _data/profile.yml free of presentation characters.
+.pf-hero__tagline {
+  font-family: var(--pf-font-mono);
+  color: var(--pf-text-dim);
+  margin-bottom: var(--pf-space-md);
+
+  &::before {
+    // A trailing space inside the string would be eaten: in Sass the space after
+    // a unicode escape terminates the escape. Space it with padding instead.
+    content: "\25b8";
+    color: var(--pf-accent);
+    padding-right: 0.4em;
+  }
+}
+
+.pf-hero__intro {
+  max-width: 60ch;   // measure, not container width -- keeps long lines readable
+  margin-bottom: var(--pf-space-md);
+}
+
+// About prose from index.md. Same measure as the intro so the two read as one column.
+// Whichever of the two ends the hero drops its bottom margin: .pf-hero's padding and
+// the next section's margin already space it.
+.pf-hero > :last-child { margin-bottom: 0; }
+
+.pf-hero__about {
+  max-width: 60ch;
+
+  > :last-child { margin-bottom: 0; }
+}
+
+.pf-btn {
+  display: inline-block;
+  font-family: var(--pf-font-mono);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text);
+  background-color: var(--pf-bg-raised);
+  border: var(--pf-hairline);
+  border-radius: var(--pf-radius);
+  padding: var(--pf-space-sm) var(--pf-space-md);
+
+  &:hover {
+    border-color: var(--pf-accent);
+    color: var(--pf-accent);
+    text-decoration: none;
+  }
+}
+
+// Exactly one emphasised action. More than one and neither reads as primary.
+.pf-btn--primary {
+  border-color: var(--pf-accent);
+  color: var(--pf-accent);
+}
+
+// ----------------------------------------------------------------- currently ----
+
+.pf-currently__list {
+  display: grid;
+  gap: var(--pf-space-md);
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.pf-currently__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-xs);
+  border-left: 2px solid var(--pf-border);
+  padding-left: var(--pf-space-sm);
+}
+
+.pf-currently__label {
+  font-family: var(--pf-font-mono);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.pf-currently__value {
+  color: var(--pf-text);
+}
+
+// -------------------------------------------------------------------- layout ----
+
+// auto-fit means the grid collapses to one column on a narrow screen with no
+// media query, which is what keeps section 7's 400px requirement cheap.
+.pf-grid {
+  display: grid;
+  gap: var(--pf-space-md);
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.pf-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-md);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.pf-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-sm);
+  align-items: baseline;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.pf-section {
+  margin-block: var(--pf-space-xl);
+  // Keeps a sticky header from covering an anchor target (section 7, games nav).
+  scroll-margin-top: var(--pf-space-xl);
+}
+
+.pf-divider {
+  border: 0;
+  border-top: var(--pf-hairline);
+  margin-block: var(--pf-space-lg);
+}
+
+// ------------------------------------------------------------- anchor nav ----
+
+// Sticky jump-nav for the play log. Plain links, no JS. Needs an opaque background
+// or content scrolls through it; .pf-section carries the matching scroll-margin-top
+// so a target heading never lands underneath this bar.
+.pf-anchors {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-md);
+  background-color: var(--pf-bg);
+  border-bottom: var(--pf-hairline);
+  padding-block: var(--pf-space-sm);
+  margin-bottom: var(--pf-space-lg);
+}
+
+.pf-anchors__link {
+  font-family: var(--pf-font-mono);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-text-dim);
+
+  &:hover { color: var(--pf-accent); text-decoration: none; }
+}
+
+.pf-page__lede {
+  color: var(--pf-text-dim);
+  max-width: 60ch;
+  margin-top: calc(var(--pf-space-lg) * -1 + var(--pf-space-sm));
+  margin-bottom: var(--pf-space-lg);
+}
+
+.pf-section__note {
+  margin-top: calc(var(--pf-space-md) * -1);
+  margin-bottom: var(--pf-space-md);
+}
+
+// ------------------------------------------------------------------ games ----
+
+.pf-games {
+  // Denser than the default card grid: covers carry the page, so more per row.
+  grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr));
+}
+
+.pf-game__link {
+  display: block;
+  color: inherit;
+
+  &:hover { text-decoration: none; }
+  &:hover .pf-game__cover { border-color: var(--pf-accent); }
+  &:hover .pf-game__title { color: var(--pf-accent); }
+}
+
+.pf-game__cover {
+  position: relative;
+  // Box-art proportions. Reserved before the image loads, so the grid never jumps.
+  aspect-ratio: 3 / 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--pf-bg-raised);
+  border: var(--pf-hairline);
+  border-radius: var(--pf-radius);
+  margin-bottom: var(--pf-space-sm);
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+}
+
+// Fallback when an entry has no cover: the title's initial, set large in mono.
+// Keeps the log cheap to append to without leaving holes in the grid.
+.pf-game__initial {
+  font-family: var(--pf-font-mono);
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--pf-border);
+  user-select: none;
+}
+
+.pf-game__badge {
+  position: absolute;
+  top: var(--pf-space-xs);
+  left: var(--pf-space-xs);
+  font-family: var(--pf-font-mono);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.15em 0.45em;
+  border-radius: var(--pf-radius);
+  background-color: var(--pf-bg);
+  border: var(--pf-hairline);
+  color: var(--pf-text-dim);
+}
+
+// `finished` is the default and gets no badge at all -- see the include.
+.pf-game__badge--playing  { color: var(--pf-accent); border-color: var(--pf-accent); }
+.pf-game__badge--dropped  { color: var(--pf-text-dim); }
+.pf-game__badge--replayed { color: var(--pf-text); }
+
+.pf-game__title {
+  font-size: var(--pf-text-base);
+  font-weight: 600;
+  margin: 0 0 var(--pf-space-xs);
+  line-height: 1.3;
+}
+
+.pf-game__rating {
+  font-family: var(--pf-font-mono);
+  font-size: var(--pf-text-sm);
+  color: var(--pf-accent);
+  margin: 0 0 var(--pf-space-xs);
+}
+
+.pf-game__meta { margin: 0; }
+
+// ---------------------------------------------------------------- hobbies ----
+
+.pf-hobbies { gap: var(--pf-space-md); }
+
+.pf-hobby {
+  // Wider than a game card: there is a sentence or two to read here.
+  max-width: 100%;
+}
+
+.pf-hobby__name {
+  display: flex;
+  align-items: baseline;
+  gap: var(--pf-space-sm);
+  font-size: var(--pf-text-base);
+  margin: 0 0 var(--pf-space-xs);
+}
+
+.pf-hobby__icon { color: var(--pf-accent); }
+
+.pf-hobby__link {
+  display: inline-block;
+  margin-top: var(--pf-space-sm);
+
+  &:hover { color: var(--pf-accent); }
+}

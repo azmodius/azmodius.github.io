@@ -1,0 +1,72 @@
+---
+layout: default
+---
+{%- comment -%}
+  The play log. Three kinds of section, in order:
+    Now Playing  -- status: playing
+    By year      -- newest first; group_by returns the key as `name`, a string, and
+                    4-digit years sort lexically the same as numerically
+    All-Time     -- the curated all_time: true picks, any year
+
+  A game can appear in all three. That is the point: the year log stays a complete
+  record while the two highlight rails stay curated.
+
+  Anchor nav is plain links, no JS. Year links are generated from `by_year`, so the
+  nav cannot drift from the content.
+{%- endcomment -%}
+
+{%- comment -%}
+  Guard: if _data/games.yml is missing or empty, site.data.games is `false`, and the
+  filters below would fail with "undefined method `map' for false" -- an error that
+  points at this layout rather than at the data. Cheap to prevent, so prevent it.
+{%- endcomment -%}
+{%- assign all_games = site.data.games -%}
+
+{%- if all_games and all_games.size > 0 -%}
+  {%- assign now     = all_games | where: 'status', 'playing' -%}
+  {%- assign by_year = all_games | group_by: 'year' | sort: 'name' | reverse -%}
+  {%- assign faves   = all_games | where: 'all_time', true -%}
+{%- endif -%}
+
+<h1 class="pf-page__title">{{ page.title }}</h1>
+{%- if page.blurb -%}<p class="pf-page__lede">{{ page.blurb }}</p>{%- endif -%}
+
+<nav class="pf-anchors" aria-label="Jump to section">
+  {%- if now.size > 0 -%}<a class="pf-anchors__link" href="#now">Now</a>{%- endif -%}
+  {%- for group in by_year -%}
+    {%- if group.name and group.name != '' -%}
+      <a class="pf-anchors__link" href="#y{{ group.name }}">{{ group.name }}</a>
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if faves.size > 0 -%}<a class="pf-anchors__link" href="#all-time">All-Time</a>{%- endif -%}
+</nav>
+
+{%- if now.size > 0 -%}
+  <section class="pf-section" id="now">
+    <h2 class="pf-label">Now Playing</h2>
+    {%- include pf/game-grid.html games=now -%}
+  </section>
+{%- endif -%}
+
+{%- for group in by_year -%}
+  {%- if group.name and group.name != '' -%}
+    <section class="pf-section" id="y{{ group.name }}">
+      <h2 class="pf-label">{{ group.name }}</h2>
+      {%- include pf/game-grid.html games=group.items -%}
+    </section>
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if faves.size > 0 -%}
+  <section class="pf-section" id="all-time">
+    <h2 class="pf-label">All-Time</h2>
+    <p class="pf-meta pf-section__note">The ones that stuck, any year.</p>
+    {%- include pf/game-grid.html games=faves -%}
+  </section>
+{%- endif -%}
+
+{%- unless all_games and all_games.size > 0 -%}
+  <p class="pf-meta">Nothing logged yet.</p>
+{%- endunless -%}
+
+{{ content }}

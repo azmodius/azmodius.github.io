@@ -1,0 +1,7 @@
+// Sass variables ONLY -- this file must never emit CSS.
+//
+// Media query conditions are evaluated at compile time and cannot read var(), so
+// breakpoints have to be Sass variables rather than custom properties.
+
+$pf-bp-palm:   600px;
+$pf-bp-laptop: 800px;

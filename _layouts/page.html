@@ -1,0 +1,16 @@
+---
+layout: default
+---
+<article class="pf-page">
+  {%- if page.title -%}
+    <h1 class="pf-page__title">{{ page.title }}</h1>
+  {%- endif -%}
+  {%- comment -%}
+    Same lede treatment the gallery layout gives it, so a page's blurb reads the same
+    whether it is seen on the home card grid or at the top of the page itself.
+  {%- endcomment -%}
+  {%- if page.blurb -%}
+    <p class="pf-page__lede">{{ page.blurb }}</p>
+  {%- endif -%}
+  {{ content }}
+</article>
